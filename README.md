@@ -28,7 +28,7 @@ Successful ping replies did not establish that SSH was accessible. The targeted 
 ## Evidence
 
 - [Screenshots](Screenshots/)
- [Project notes](Notes/Info.txt)
+- [Project notes](Notes/Info.txt)
 
 Evidence covers baseline connectivity, the blocked connection, firewall rule scope, and restored access.
 
