@@ -1,0 +1,33 @@
+Network Troubleshooting and Firewall Validation
+
+Purpose
+Simulate an SSH connectivity problem, compare ping and TCP results, and restore access by removing a targeted Windows firewall rule.
+
+Environment
+- VMware Workstation home lab
+- Windows VM: Soc-analyst, 192.168.213.131
+- Ubuntu VM: soc-ubuntu, 192.168.213.133
+- SSH account: dercy
+- Service tested: SSH over TCP port 22
+
+Baseline
+The Windows VM successfully connected to Ubuntu on TCP port 22. SSH login succeeded. The commands whoami and hostname confirmed the Ubuntu account and computer.
+
+Simulated Problem
+Created an outbound Windows firewall block rule named Lab-Block-Ubuntu-SSH. The rule targeted only TCP port 22 at remote address 192.168.213.133.
+
+Validation
+With the rule active:
+- PingSucceeded was True.
+- TcpTestSucceeded was False.
+- SSH failed before authentication with “connect to host 192.168.213.133 port 22: Permission denied.”
+- Firewall filters confirmed the remote address and TCP port.
+
+Resolution
+Removed Lab-Block-Ubuntu-SSH using Remove-NetFirewallRule. The TCP connection test then succeeded. SSH login also succeeded, and whoami and hostname returned dercy and soc-ubuntu.
+
+Finding
+A successful ping did not mean SSH was accessible. The targeted outbound firewall rule blocked the TCP connection while ping remained available. Removing that rule restored access.
+
+Scope
+This was a controlled exercise on personal virtual machines. Validation used PowerShell connection tests, firewall rule inspection, and SSH login attempts. No packet capture was performed.
